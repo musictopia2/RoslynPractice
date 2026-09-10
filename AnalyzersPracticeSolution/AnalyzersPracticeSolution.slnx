@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path="LessonContent.txt" />
+    <File Path="PracticeProjectType.txt" />
   </Folder>
   <Project Path="AnalyzersPracticeLibrary/AnalyzersPracticeLibrary.csproj" />
   <Project Path="AnalyzersPracticeTests/AnalyzersPracticeTests.csproj" />

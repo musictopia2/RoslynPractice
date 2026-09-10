@@ -10,7 +10,6 @@ public class EmptyAnalyzer : DiagnosticAnalyzer
             return [];
         }
     }
-
     public override void Initialize(AnalysisContext context)
     {
         context.ConfigureGeneratedCodeAnalysis(
