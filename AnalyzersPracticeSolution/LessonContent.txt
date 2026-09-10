@@ -1,0 +1,146 @@
+Analyzer Track Curriculum
+Section 01 — Analyzer Fundamentals
+
+This is effectively the analyzer equivalent of your C# Hello World section. The goal isn't yet to write clever rules; it's to understand what an analyzer actually is and how Roslyn invokes it. Microsoft's current tutorial emphasizes the DiagnosticAnalyzer type, language attribute, Initialize, registering actions, and reporting diagnostics as the basic execution model.
+
+Creating a Minimal Diagnostic Analyzer
+The DiagnosticAnalyzer Attribute and SupportedDiagnostics
+Understanding Initialize and AnalysisContext
+Registering Your First Analysis Action
+Creating and Reporting Your First Diagnostic
+
+This section should deliberately contain tiny analyzers. Even if Lesson 01 amounts to "Hello World for analyzers," that is useful reference material years from now.
+
+Section 02 — Diagnostics and Rules
+
+Before doing complicated inspection, you should thoroughly understand the thing an analyzer produces.
+
+Diagnostic IDs and Rule Identity
+Creating DiagnosticDescriptor Rules
+Titles, Messages, Categories, and Descriptions
+Diagnostic Severity
+Diagnostic Locations
+Message Arguments and Dynamic Diagnostic Messages
+
+This also gives us a clean place to establish your eventual convention for IDs, such as ANDY0001, before you accumulate many analyzers.
+
+Section 03 — Syntax-Based Analysis
+
+Now you start examining actual C# structures. Syntax analysis is intentionally before semantic analysis; Microsoft's semantic-analysis material itself assumes familiarity with the Syntax API.
+
+Syntax Nodes and SyntaxKind
+Registering Syntax Node Actions
+Inspecting Expressions
+Inspecting Statements and Declarations
+Working with Tokens and Trivia
+Handling Multiple Syntax Shapes
+
+This should contain lots of very small rules: detecting particular expressions, declarations, operators, modifiers, etc.
+
+Section 04 — Analyzer Testing Fundamentals
+
+I would introduce testing this early, rather than waiting until near the end. Your project explicitly says automated verification should eventually become normal rather than depending on manually opening Visual Studio.
+
+Setting Up an Analyzer Test Project
+Testing That a Diagnostic Appears
+Testing That No Diagnostic Appears
+Testing Diagnostic IDs, Messages, and Severity
+Testing Diagnostic Locations
+Testing Multiple Diagnostics and Multiple Source Cases
+
+After this section, tests can accompany almost every analyzer exercise rather than testing being a separate advanced skill.
+
+Section 05 — Semantic Analysis
+
+This is the major transition from "what does this code look like?" to "what does this code mean?" Roslyn distinguishes syntax structure from semantic meaning through compilations, semantic models, binding, symbols, and type information.
+
+Understanding the Semantic Model
+Getting Type Information
+Getting Symbol Information
+Resolving Methods, Properties, and Fields
+Distinguishing Syntactically Similar but Semantically Different Code
+Combining Syntax and Semantic Analysis
+
+This section becomes especially important for avoiding false positives.
+
+Section 06 — Symbols and Type Analysis
+
+Symbols deserve their own section rather than being buried inside semantic analysis.
+
+Understanding Roslyn Symbols
+Analyzing Named Types
+Analyzing Methods and Constructors
+Analyzing Properties and Fields
+Analyzing Parameters and Local Symbols
+Type Relationships, Interfaces, and Inheritance
+
+Roslyn's official analyzer samples include dedicated symbol analyzers, so symbol actions are a first-class analyzer technique rather than merely a SemanticModel detail.
+
+Section 07 — Operations and Higher-Level Code Analysis
+
+This is where I would introduce Roslyn's operation model. It gives analyzers a representation based more on program semantics than the exact syntax used to express them.
+
+Introduction to IOperation
+Registering Operation Actions
+Analyzing Assignments and References
+Analyzing Invocations
+Analyzing Unary and Binary Operations
+Choosing Between Syntax, Symbols, and Operations
+
+Your practical Boolean-literal analyzer belongs here.
+
+By this point you would understand diagnostics, syntax, testing, semantics, symbols, and operations. So an exercise can legitimately ask you to detect:
+
+isValid && false
+isValid && true
+isValid || false
+isValid || true
+
+without me essentially having to teach you the implementation while giving you the requirements.
+
+And importantly, this remains analyzer only. We would diagnose your accidental secondFound && false; we would not write the automatic == false correction here.
+
+Section 08 — Broader and Stateful Analysis
+
+So far most exercises can inspect one thing independently. Now the analyzer learns to reason across a larger scope.
+
+Roslyn's own samples distinguish these stateless analyzers from stateful analyzers that work across code blocks or compilations.
+
+Syntax Tree Analysis
+Semantic Model Analysis
+Code Block Analysis
+Compilation Analysis
+Compilation Start and End Actions
+Maintaining State Safely Across Analysis
+
+This is an important difficulty jump and should come fairly late.
+
+Section 09 — Configuration and Project Inputs
+
+Analyzers eventually need to behave like actual development tools rather than hard-coded demonstrations.
+
+Analyzer Configuration Fundamentals
+Reading .editorconfig Options
+Rule Severity Configuration
+Using Additional Files
+Building Rules from External Configuration
+Configuration Defaults and Invalid Configuration
+
+Current .NET analysis supports .editorconfig-based rule configuration, while Roslyn's analyzer infrastructure exposes additional non-source files through analyzer options.
+
+This section could eventually produce useful personal analyzers where your coding rules are configurable rather than baked permanently into the implementation.
+
+Section 10 — Production-Quality Analyzer Design
+
+This is where the course transitions from "I know Roslyn analyzer APIs" to "I can make an analyzer I would actually trust in my projects."
+
+Generated Code Analysis
+Concurrent Analyzer Execution
+Avoiding Unnecessary Analyzer Work
+Reducing False Positives
+Handling Incomplete and Erroneous Source Code
+Selecting the Correct Analysis Scope
+Stateless vs. Stateful Analyzer Design
+Building and Testing a Realistic Multi-Rule Analyzer
+
+This final section is especially relevant to your reason for learning analyzers in the first place: you want tooling that catches recurring attention-to-detail mistakes. An analyzer that produces false positives or behaves unpredictably would undermine that purpose, so correctness and restraint deserve explicit lessons.
