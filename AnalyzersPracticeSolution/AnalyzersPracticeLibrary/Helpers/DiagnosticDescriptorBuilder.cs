@@ -6,6 +6,10 @@ namespace AnalyzersPracticeLibrary.Helpers;
 
 public static class DiagnosticDescriptorBuilder
 {
+
+
+    
+
     public static IIdStep Create()
     {
         return new Builder();

@@ -1,0 +1,64 @@
+The important new idea is that an analyzer does not merely notice something—it creates a Diagnostic from a DiagnosticDescriptor and reports it through the analysis context. That fits the project rule that new Roslyn API shapes should be taught before the exercise depends on them, while still leaving the exercise implementation to you.
+
+Before Exercise 01 — the new API pieces
+
+You already know that SupportedDiagnostics tells Roslyn which rules the analyzer can produce. Until now yours has returned:
+
+return [];
+
+For an analyzer that actually produces a diagnostic, you normally define a DiagnosticDescriptor, for example:
+
+private static readonly DiagnosticDescriptor Rule =
+    new(
+        id: "EXAMPLE001",
+        title: "Example diagnostic",
+        messageFormat: "An example diagnostic was reported",
+        category: "Example",
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true);
+
+Then SupportedDiagnostics would include that descriptor rather than being empty.
+
+The second new piece is creating the actual diagnostic:
+
+Diagnostic diagnostic = Diagnostic.Create(
+    Rule,
+    Location.None);
+
+The important method shape here is essentially:
+
+Diagnostic.Create(
+    DiagnosticDescriptor descriptor,
+    Location? location,
+    params object?[]? messageArgs)
+
+So the first argument identifies which rule was violated, and the second identifies where the problem occurred.
+
+For this first exercise, Location.None is useful because it lets you learn diagnostic creation/reporting without also having to learn how to calculate syntax locations yet.
+
+Finally, an analysis callback can report it:
+
+context.ReportDiagnostic(diagnostic);
+
+If the callback is a compilation action, its parameter type is:
+
+CompilationAnalysisContext
+
+So conceptually the flow is:
+
+DiagnosticDescriptor
+        ↓
+SupportedDiagnostics
+        ↓
+registered analysis callback
+        ↓
+Diagnostic.Create(...)
+        ↓
+context.ReportDiagnostic(...)
+
+Notice the distinction between these two things:
+
+DiagnosticDescriptor = the definition/rule
+Diagnostic = one actual occurrence of that rule
+
+That distinction will become much more important later when one rule can produce several diagnostics.

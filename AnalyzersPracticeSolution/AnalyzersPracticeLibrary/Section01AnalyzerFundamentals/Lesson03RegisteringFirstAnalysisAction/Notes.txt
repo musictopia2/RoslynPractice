@@ -1,0 +1,67 @@
+Yes. Lesson 03 should be Registering Your First Analysis Action, and your current starting code is appropriate. The project requirements specifically call for registering analysis actions as part of the analyzer fundamentals progression. Microsoft’s current analyzer tutorial also goes directly from the analyzer shell into registering actions in Initialize; that registration is what tells Roslyn what events should cause your analyzer code to run.
+
+Since this is a new lesson, here is the small teaching example first.
+
+Lesson 03 example — what registration actually does
+
+So far, your analyzer has an Initialize method, but this:
+
+public override void Initialize(AnalysisContext context)
+{
+    context.ConfigureGeneratedCodeAnalysis(
+        GeneratedCodeAnalysisFlags.None);
+
+    context.EnableConcurrentExecution();
+}
+
+doesn't tell Roslyn to analyze anything.
+
+An analyzer works by registering callbacks. Conceptually:
+
+Initialize
+    ↓
+Register an action
+    ↓
+Roslyn encounters the thing you registered for
+    ↓
+Roslyn calls your method
+
+There are many kinds of actions. For example, Roslyn provides registration methods for compilations, syntax nodes, symbols, operations, code blocks, semantic models, and others.
+
+For this first lesson, we'll use a compilation action because it lets you practice registration without also requiring you to understand syntax nodes yet.
+
+The important API shape is:
+
+context.RegisterCompilationAction(MethodName);
+
+The method registered there must accept a:
+
+CompilationAnalysisContext
+
+So the relationship looks like:
+
+AnalysisContext
+    |
+    | RegisterCompilationAction(...)
+    v
+CompilationAnalysisContext
+
+The important distinction from the previous failed approach is that you are not calling the analysis method yourself.
+
+You previously had effectively:
+
+AnalyzeCompilation(context);
+
+That is just an ordinary C# method call.
+
+Registration instead tells Roslyn:
+
+When a compilation is ready for this analyzer, call this method for me.
+
+That distinction is the entire point of this lesson.
+
+
+example is
+context.RegisterSymbolAction(
+        AnalyzeSymbol,
+        SymbolKind.NamedType);

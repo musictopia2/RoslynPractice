@@ -9,11 +9,9 @@ Lesson 01 — Creating a Minimal Diagnostic Analyzer
 
 Lesson 02 — The DiagnosticAnalyzer Attribute and SupportedDiagnostics
 
-Lesson 03 — Understanding Initialize and AnalysisContext
+Lesson 03 — Registering Your First Analysis Action
 
-Lesson 04 — Registering Your First Analysis Action
-
-Lesson 05 — Creating and Reporting Your First Diagnostic
+Lesson 04 — Creating and Reporting Your First Diagnostic
 
 
 
