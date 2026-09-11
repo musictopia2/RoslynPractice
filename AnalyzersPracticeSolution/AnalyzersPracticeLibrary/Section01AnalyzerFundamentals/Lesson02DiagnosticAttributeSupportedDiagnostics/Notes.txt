@@ -1,0 +1,117 @@
+Before the exercise: what this lesson is teaching
+
+Your generated class already contains the two pieces this lesson focuses on:
+
+[DiagnosticAnalyzer(LanguageNames.CSharp)]
+public class MainClass : DiagnosticAnalyzer
+
+The attribute tells Roslyn:
+
+This class is a diagnostic analyzer, and it analyzes C#.
+
+LanguageNames.CSharp is important because analyzers can target different languages. Roslyn needs to know which language or languages an analyzer applies to.
+
+The second concept is this property:
+
+public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
+{
+    get
+    {
+        return [];
+    }
+}
+
+A DiagnosticDescriptor describes one kind of diagnostic your analyzer is capable of reporting.
+
+For example, conceptually an analyzer might support a diagnostic having:
+
+ID: ABC001
+Title: Something is wrong
+Severity: Warning
+
+The descriptor stores that definition.
+
+SupportedDiagnostics then tells Roslyn:
+
+These are all the diagnostic descriptors that this analyzer might report.
+
+Right now yours returns:
+
+[]
+
+so your analyzer is saying:
+
+I currently support zero diagnostics.
+
+One important distinction for this lesson:
+
+DiagnosticDescriptor defines a type of diagnostic.
+SupportedDiagnostics advertises which diagnostic types the analyzer supports.
+Actually finding bad code and reporting a diagnostic happens later.
+
+So we are deliberately not analyzing syntax yet.
+
+the above was ai generated.
+
+
+the part below are my thoughts.
+
+
+this was about using the part where it shows details in visual studio.
+i used this in my source generators but did not understand a lot (just followed the magic found).
+
+
+i had a question about why so much was allowed.
+
+ai used this response
+"
+It feels like too much at first because DiagnosticDescriptor isn't only describing what the human sees. It's also describing how Roslyn and other tooling identify, organize, configure, and display the rule.
+
+Using your RPA008 example:
+
+.WithId("RPA008")
+.WithTitle("Possible correctness issue")
+.WithMessage("This code may contain a correctness issue")
+.WithCategory("Correctness")
+.WithSeverity(DiagnosticSeverity.Error)
+.EnabledByDefault()
+
+Each piece has a different job:
+
+Part	Main purpose
+ID	Stable machine-readable identity of the rule
+Title	Short human-readable name of the rule
+Message	What is shown for a particular diagnostic occurrence
+Category	Groups related analyzer rules
+Severity	Error, warning, info, etc.
+Enabled by default	Whether the rule operates without being explicitly enabled
+
+The one that can seem especially redundant is title vs. message. For a simple diagnostic, they might be nearly identical:
+
+Title:   Boolean literal used in logical expression
+Message: Boolean literal used in logical expression
+
+But messages become more useful when they contain information about the specific occurrence. For example, eventually you could have something conceptually like:
+
+Title:
+Boolean literal used in logical expression
+
+Message:
+Boolean literal 'false' should not be used with '&&'
+
+The title describes the rule. The message describes what happened this time.
+
+The ID is particularly important for configuration. If your eventual boolean analyzer is RPA100, tooling can refer to RPA100 regardless of how you word its title or message. That's much safer than using English text as the identity.
+
+And category is probably the one I'd agree feels least necessary for a tiny personal analyzer. If you only had three rules, you might wonder why Roslyn can't live without it. It matters more once an analyzer package contains many diagnostics and tooling needs to organize them.
+
+So your instinct isn't really wrong: for your immediate purpose, something like:
+
+ID
+Message
+Severity
+
+would capture most of what you care about. DiagnosticDescriptor is more elaborate because Roslyn's analyzer API was designed for analyzer packages that can contain many configurable rules used by many projects and developers.
+
+That's also why I think your guided builder is going to pay off. You should understand what all six things mean, but there's little value in making you memorize Roslyn's six-parameter constructor every time you define a rule.
+"

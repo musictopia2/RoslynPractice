@@ -1,28 +1,39 @@
 Analyzer Track Curriculum
 Section 01 — Analyzer Fundamentals
 
-This is effectively the analyzer equivalent of your C# Hello World section. The goal isn't yet to write clever rules; it's to understand what an analyzer actually is and how Roslyn invokes it. Microsoft's current tutorial emphasizes the DiagnosticAnalyzer type, language attribute, Initialize, registering actions, and reporting diagnostics as the basic execution model.
+The goal is to understand what an analyzer is and Roslyn's basic execution model.
 
-Creating a Minimal Diagnostic Analyzer
-The DiagnosticAnalyzer Attribute and SupportedDiagnostics
-Understanding Initialize and AnalysisContext
-Registering Your First Analysis Action
-Creating and Reporting Your First Diagnostic
+Section 01 — Analyzer Fundamentals
 
-This section should deliberately contain tiny analyzers. Even if Lesson 01 amounts to "Hello World for analyzers," that is useful reference material years from now.
+Lesson 01 — Creating a Minimal Diagnostic Analyzer
 
-Section 02 — Diagnostics and Rules
+Lesson 02 — The DiagnosticAnalyzer Attribute and SupportedDiagnostics
 
-Before doing complicated inspection, you should thoroughly understand the thing an analyzer produces.
+Lesson 03 — Understanding Initialize and AnalysisContext
 
-Diagnostic IDs and Rule Identity
-Creating DiagnosticDescriptor Rules
-Titles, Messages, Categories, and Descriptions
-Diagnostic Severity
-Diagnostic Locations
-Message Arguments and Dynamic Diagnostic Messages
+Lesson 04 — Registering Your First Analysis Action
 
-This also gives us a clean place to establish your eventual convention for IDs, such as ANDY0001, before you accumulate many analyzers.
+Lesson 05 — Creating and Reporting Your First Diagnostic
+
+
+
+
+Section 02 — Working with Diagnostics
+
+This section assumes that I already know how to create a basic DiagnosticDescriptor with an ID, title, message, category, severity, and enabled state. The goal is to learn how diagnostics are designed and used rather than repeating basic descriptor construction.
+
+Lesson 01 — Diagnostic IDs and Rule Identity
+
+Lesson 02 — Diagnostic Locations
+
+Lesson 03 — Message Arguments and Dynamic Messages
+
+Lesson 04 — Diagnostic Severity and Configuration
+
+Lesson 05 — Diagnostic Metadata and Documentation
+
+Lesson 06 — Combining Rule Definitions with Diagnostic Instances
+
 
 Section 03 — Syntax-Based Analysis
 
