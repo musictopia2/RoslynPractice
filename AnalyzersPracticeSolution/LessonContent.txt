@@ -20,17 +20,23 @@ Section 02 — Working with Diagnostics
 
 This section assumes that I already know how to create a basic DiagnosticDescriptor with an ID, title, message, category, severity, and enabled state. The goal is to learn how diagnostics are designed and used rather than repeating basic descriptor construction.
 
-Lesson 01 — Diagnostic IDs and Rule Identity
+Lesson 01 — Diagnostic Message Arguments
+Learn {0}, {1}, etc.; supplying arguments through Diagnostic.Create; distinction between MessageFormat and the final diagnostic message.
 
 Lesson 02 — Diagnostic Locations
+Move beyond Location.None. Learn how a diagnostic points at an actual source location and what Roslyn's Location represents.
 
-Lesson 03 — Message Arguments and Dynamic Messages
+Lesson 03 — Multiple Message Arguments and Formatting
+Build on Lesson 01 with multiple placeholders, argument ordering, different value types, and diagnostics whose messages depend on what was discovered during analysis.
 
-Lesson 04 — Diagnostic Severity and Configuration
+Lesson 04 — Additional Diagnostic Locations
+Learn diagnostics that have a primary location plus related/additional locations. This is genuinely beyond simply reporting a diagnostic at one location.
 
-Lesson 05 — Diagnostic Metadata and Documentation
+Lesson 05 — Diagnostic Properties
+Learn the immutable key/value properties that can be attached to a Diagnostic, separate from its human-readable message. This will also matter later when analyzers communicate information that a code fix can consume.
 
-Lesson 06 — Combining Rule Definitions with Diagnostic Instances
+Lesson 06 — Combining Descriptor and Diagnostic Data
+Review/integration lesson combining stable descriptor information with occurrence-specific information: descriptor ID/message format/severity versus diagnostic location/message arguments/properties.
 
 
 Section 03 — Syntax-Based Analysis

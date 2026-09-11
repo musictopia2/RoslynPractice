@@ -7,5 +7,6 @@ public static class AnalysisContextExtensions
         {
             context.RegisterCompilationAction(action => action.ReportSeveralReportDiagnosticsWithNone(list));
         }
+        
     }
 }
