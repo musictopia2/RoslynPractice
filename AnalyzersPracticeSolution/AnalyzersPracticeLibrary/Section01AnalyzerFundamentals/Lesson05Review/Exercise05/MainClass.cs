@@ -65,7 +65,6 @@ The order does not matter.
 Do not use syntax-node, symbol, semantic-model, or operation actions.
 */
 
-
 namespace AnalyzersPracticeLibrary.Section01AnalyzerFundamentals.Lesson05Review.Exercise05;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]

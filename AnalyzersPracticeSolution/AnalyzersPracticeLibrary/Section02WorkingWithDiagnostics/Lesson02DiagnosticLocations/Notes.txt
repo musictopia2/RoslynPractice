@@ -1,0 +1,112 @@
+Before Exercise 01 — How diagnostic locations work
+
+In the previous lesson, you created diagnostics. A diagnostic can either have no source location or point to a specific place in the user's source code.
+
+The important overload is conceptually:
+
+Diagnostic.Create(
+    DiagnosticDescriptor descriptor,
+    Location? location,
+    params object?[]? messageArgs)
+
+The second argument controls where Visual Studio associates the diagnostic with the source code.
+
+For example:
+
+Location location = someNode.GetLocation();
+
+Diagnostic diagnostic = Diagnostic.Create(
+    Rule,
+    location);
+
+Then the analyzer reports it through the analysis context:
+
+context.ReportDiagnostic(diagnostic);
+
+The important new type for this lesson is:
+
+Location
+
+Roslyn syntax objects can provide their source location. Two common examples are:
+
+SyntaxNode.GetLocation()
+SyntaxToken.GetLocation()
+
+So if you already have a syntax node:
+
+Location location = node.GetLocation();
+
+That Location contains information such as the source file and text span corresponding to that piece of syntax.
+
+There is also:
+
+Location.None
+
+That means the diagnostic exists but is not attached to a particular piece of source code.
+
+For this first exercise, you don't need syntax-node analysis yet. We'll use a compilation action, something you already practiced, and obtain a location through the compilation's syntax tree.
+
+A Compilation exposes its source files through:
+
+compilation.SyntaxTrees
+
+Each item is a:
+
+SyntaxTree
+
+A syntax tree can give you its root syntax node:
+
+SyntaxNode root = syntaxTree.GetRoot();
+
+And because the root is a SyntaxNode, you can obtain:
+
+Location location = root.GetLocation();
+
+The chain therefore looks like:
+
+Compilation
+    ↓
+SyntaxTrees
+    ↓
+SyntaxTree
+    ↓
+GetRoot()
+    ↓
+SyntaxNode
+    ↓
+GetLocation()
+    ↓
+Location
+
+You do not need to memorize that chain yet. This lesson exists specifically so you'll practice it several times.
+
+
+
+here is before lesson 3 (another concept)
+New API before the exercise
+
+You've already used:
+
+node.GetLocation()
+
+A SyntaxTree can also create a location from a TextSpan:
+
+Location location = syntaxTree.GetLocation(textSpan);
+
+TextSpan represents a range of character positions:
+
+new TextSpan(start, length)
+
+For example:
+
+TextSpan span = new TextSpan(0, 5);
+Location location = syntaxTree.GetLocation(span);
+
+means:
+
+start at character 0
+include 5 characters
+
+This is important for analyzers because eventually you won't always want to underline an entire syntax node. Sometimes the diagnostic should identify a very precise portion of the source.
+
+For now we're deliberately creating the span ourselves. Later Roslyn syntax objects will often give you the appropriate spans.

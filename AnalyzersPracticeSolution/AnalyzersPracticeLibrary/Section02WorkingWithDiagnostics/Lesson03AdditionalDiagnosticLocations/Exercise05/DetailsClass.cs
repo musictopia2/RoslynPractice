@@ -1,0 +1,3 @@
+﻿namespace AnalyzersPracticeLibrary.Section02WorkingWithDiagnostics.Lesson03AdditionalDiagnosticLocations.Exercise05;
+
+public record struct DetailsClass(Location Location, string ClassName);

@@ -26,17 +26,12 @@ Learn {0}, {1}, etc.; supplying arguments through Diagnostic.Create; distinction
 Lesson 02 — Diagnostic Locations
 Move beyond Location.None. Learn how a diagnostic points at an actual source location and what Roslyn's Location represents.
 
-Lesson 03 — Multiple Message Arguments and Formatting
-Build on Lesson 01 with multiple placeholders, argument ordering, different value types, and diagnostics whose messages depend on what was discovered during analysis.
-
-Lesson 04 — Additional Diagnostic Locations
+Lesson 03 — Additional Diagnostic Locations
 Learn diagnostics that have a primary location plus related/additional locations. This is genuinely beyond simply reporting a diagnostic at one location.
 
-Lesson 05 — Diagnostic Properties
+Lesson 04 — Diagnostic Properties
 Learn the immutable key/value properties that can be attached to a Diagnostic, separate from its human-readable message. This will also matter later when analyzers communicate information that a code fix can consume.
 
-Lesson 06 — Combining Descriptor and Diagnostic Data
-Review/integration lesson combining stable descriptor information with occurrence-specific information: descriptor ID/message format/severity versus diagnostic location/message arguments/properties.
 
 
 Section 03 — Syntax-Based Analysis

@@ -1,0 +1,66 @@
+The important new idea will be the distinction between:
+
+Diagnostic.Create(
+    descriptor,
+    primaryLocation,
+    additionalLocations,
+    properties,
+    messageArgs);
+
+and the simpler overloads you've already been using.
+
+A diagnostic still has one primary Location, but it can also carry an immutable collection of additional locations. Conceptually:
+
+Diagnostic
+│
+├── Location                 ← primary location
+│
+└── AdditionalLocations      ← zero or more related locations
+      ├── Location
+      ├── Location
+      └── ...
+
+For example, suppose an analyzer is reporting that two declarations conflict. The diagnostic could be displayed primarily on the second declaration while retaining the first declaration as an additional location:
+
+Location primaryLocation = ...;
+Location originalLocation = ...;
+
+ImmutableArray<Location> additionalLocations =
+    [originalLocation];
+
+Diagnostic diagnostic = Diagnostic.Create(
+    descriptor,
+    primaryLocation,
+    additionalLocations,
+    properties: null);
+
+There are two especially important things to notice.
+
+First, additional locations are not additional diagnostics. You still created exactly one Diagnostic. It simply contains references to other relevant source locations.
+
+Second, Location and AdditionalLocations have different roles. If you later inspect the diagnostic, the basic shape is:
+
+Location primary = diagnostic.Location;
+
+IReadOnlyList<Location> related =
+    diagnostic.AdditionalLocations;
+
+So for this lesson, the genuinely new material is fairly focused: creating a diagnostic with additional locations, understanding primary versus additional locations, and later inspecting/testing those locations. We don't need to re-teach descriptors, message arguments, compilation actions, etc.; those can simply support the new concept.
+
+Your starter class is therefore exactly where I'd want Exercise 01 to begin. The next thing should be the Exercise 01 requirements, with enough starter/context information that you only have to apply the API shape above rather than guess Roslyn members.
+
+
+exercise 3 had this:
+You will need this Roslyn shape:
+
+SyntaxNode root = syntaxTree.GetRoot();
+
+ClassDeclarationSyntax? classDeclaration =
+    root.DescendantNodes()
+        .OfType<ClassDeclarationSyntax>()
+        .FirstOrDefault();
+
+Then:
+
+Location location =
+    classDeclaration.GetLocation();

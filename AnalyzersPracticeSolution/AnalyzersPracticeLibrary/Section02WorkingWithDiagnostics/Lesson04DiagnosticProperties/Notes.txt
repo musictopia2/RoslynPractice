@@ -1,0 +1,131 @@
+For Lesson 04 — Diagnostic Properties, the genuinely new concept is that a Diagnostic can carry machine-readable key/value data in addition to its normal human-readable message.
+
+Microsoft describes these properties as extra information an analyzer can attach to the diagnostic, particularly so another component such as a code fix can consume it later.
+
+1. The new Diagnostic.Create overload
+
+You have already used a form conceptually like:
+
+Diagnostic.Create(
+    descriptor,
+    location,
+    messageArgs);
+
+There is another overload:
+
+Diagnostic.Create(
+    DiagnosticDescriptor descriptor,
+    Location? location,
+    ImmutableDictionary<string, string?>? properties,
+    params object?[]? messageArgs);
+
+The important new parameter is:
+
+ImmutableDictionary<string, string?>? properties
+
+So a diagnostic can contain both:
+
+Message arguments
+    ↓
+used to build the text the programmer sees
+
+Properties
+    ↓
+machine-readable information attached to the Diagnostic
+
+Those are separate concepts.
+
+For example, suppose the descriptor has:
+
+.WithMessage("Method {0} requires review")
+
+and the diagnostic uses:
+
+messageArgs: ["CalculateTotal"]
+
+Then the user sees something like:
+
+Method CalculateTotal requires review
+
+But you might separately attach properties such as:
+
+Kind = Method
+Name = CalculateTotal
+
+Those property values do not automatically appear in the message.
+
+2. Creating the property dictionary
+
+The properties need to be an immutable dictionary.
+
+One straightforward form is:
+
+ImmutableDictionary<string, string?> properties =
+    ImmutableDictionary<string, string?>.Empty
+        .Add("Kind", "Method")
+        .Add("Name", "CalculateTotal");
+
+Then:
+
+Diagnostic diagnostic = Diagnostic.Create(
+    OnlyRule,
+    Location.None,
+    properties,
+    "CalculateTotal");
+
+Notice that "CalculateTotal" appears twice here for two completely different reasons:
+
+properties
+    .Add("Name", "CalculateTotal")
+
+stores machine-readable information.
+
+Whereas:
+
+"CalculateTotal"
+
+at the end supplies {0} in the message.
+
+You are allowed to put the same information in both if both consumers need it, but Roslyn does not connect those two automatically.
+
+3. Reading properties back
+
+A Diagnostic exposes:
+
+diagnostic.Properties
+
+That gives you its immutable property dictionary.
+
+For example:
+
+string? name = diagnostic.Properties["Name"];
+
+or normal dictionary APIs can be used when you don't know whether a key exists.
+
+The important conceptual relationship is:
+
+DiagnosticDescriptor
+    ID
+    Title
+    MessageFormat
+    Category
+    DefaultSeverity
+    ...
+
+Diagnostic
+    Descriptor
+    Location
+    Message arguments
+    AdditionalLocations
+    Properties
+
+So properties belong to the individual diagnostic occurrence, not the descriptor.
+
+That fits what you learned in the previous lessons: the descriptor defines stable rule information; the diagnostic contains information about one particular occurrence.
+
+
+
+final notes:
+
+diagnostic properties a human can't ready.
+however, if there was another roslyn component, it can do something with the information found.
