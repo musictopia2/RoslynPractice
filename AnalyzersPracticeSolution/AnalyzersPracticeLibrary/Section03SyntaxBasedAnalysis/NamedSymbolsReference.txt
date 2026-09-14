@@ -1,0 +1,12 @@
+In C#, the main declarations represented by INamedTypeSymbol are:
+
+C# declaration	Typical TypeKind
+class	TypeKind.Class
+record class / record	TypeKind.Class
+struct	TypeKind.Struct
+record struct	TypeKind.Struct
+interface	TypeKind.Interface
+enum	TypeKind.Enum
+delegate	TypeKind.Delegate
+
+ai generated this.

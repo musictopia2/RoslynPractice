@@ -1,0 +1,2 @@
+﻿namespace AnalyzersPracticeLibrary.Section03SyntaxBasedAnalysis.Lesson01SyntaxNodesAndKind.Exercise05;
+public record struct Details(int MethodCount, int PropertyCount, string Classification);

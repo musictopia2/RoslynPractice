@@ -39,7 +39,6 @@ Section 03 — Syntax-Based Analysis
 Now you start examining actual C# structures. Syntax analysis is intentionally before semantic analysis; Microsoft's semantic-analysis material itself assumes familiarity with the Syntax API.
 
 Syntax Nodes and SyntaxKind
-Registering Syntax Node Actions
 Inspecting Expressions
 Inspecting Statements and Declarations
 Working with Tokens and Trivia

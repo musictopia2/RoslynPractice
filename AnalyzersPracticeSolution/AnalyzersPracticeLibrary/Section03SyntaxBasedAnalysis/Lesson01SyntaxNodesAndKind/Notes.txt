@@ -1,0 +1,30 @@
+The lesson should now shift away from “how to construct diagnostics” and toward how an analyzer observes specific pieces of C# syntax. You already know enough about descriptors, callbacks, locations, message arguments, additional locations, and properties that those should mostly stay in the background here. The project requirements also say that unfamiliar Roslyn APIs must be taught before an exercise expects you to use them.
+
+For Exercise 01, I would introduce only the minimum new APIs/concepts:
+
+context.RegisterSyntaxNodeAction(...)
+SyntaxKind
+SyntaxNodeAnalysisContext
+context.Node
+the fact that registering for a particular SyntaxKind means the callback runs only for matching syntax nodes
+casting context.Node to the corresponding syntax-node type after registering the correct kind
+
+A small teaching example before the exercise could use something unrelated to the actual exercise, such as observing SyntaxKind.ClassDeclaration and casting the node to ClassDeclarationSyntax. The important idea is:
+
+context.RegisterSyntaxNodeAction(AnalyzeClass, SyntaxKind.ClassDeclaration);
+
+and then inside the callback:
+
+private void AnalyzeClass(SyntaxNodeAnalysisContext context)
+{
+    ClassDeclarationSyntax classNode =
+        (ClassDeclarationSyntax)context.Node;
+
+    // inspect classNode here
+}
+
+The key conceptual difference from your earlier callbacks is that Roslyn is now calling you once for each matching syntax node, rather than once per compilation, syntax tree, symbol, etc.
+
+For Exercise 01 itself, I’d keep it extremely focused: register for one straightforward syntax kind, inspect that node, and report one diagnostic based directly on something visible in its syntax. I would not introduce semantic models, symbols, descendant searches, complicated traversal, or multiple syntax kinds yet.
+
+Your starter class is therefore appropriate as-is. The first thing added to it should be the lesson’s new syntax-node registration mechanism rather than more infrastructure.
