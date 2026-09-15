@@ -4,9 +4,9 @@ public static class BaseTypeDeclarationExtensions
     extension(BaseTypeDeclarationSyntax node)
     {
         public string Name => node.Identifier.Text;
-
+        public bool HasMembers => node is TypeDeclarationSyntax;
         public Location GetIdentifierLocation => node.Identifier.GetLocation();
-
+        public TypeDeclarationSyntax ToTypeDeclaration => (TypeDeclarationSyntax)node;
         public bool IsPublic => node.Modifiers.Any(x => x.IsKind(SyntaxKind.PublicKeyword));
         public bool IsRecordStruct => node.IsKind(SyntaxKind.RecordStructDeclaration);
         public bool IsRecordClass => node.IsKind(SyntaxKind.RecordDeclaration);
