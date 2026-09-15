@@ -1,13 +1,10 @@
 ﻿namespace AnalyzersPracticeLibrary.Helpers;
-public static class ClassDeclarationExtensions
+public static class InterfaceDeclarationExtensions
 {
-    extension(ClassDeclarationSyntax node)
+    extension(InterfaceDeclarationSyntax node)
     {
         public int MethodCount => node.Members.OfType<MethodDeclarationSyntax>().Count();
         public int PropertyCount => node.Members.OfType<PropertyDeclarationSyntax>().Count();
 
-
-
-        //well see what other things about this i will need in future.
     }
 }

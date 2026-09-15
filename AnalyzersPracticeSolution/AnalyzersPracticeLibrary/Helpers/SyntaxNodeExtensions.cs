@@ -6,5 +6,11 @@ public static class SyntaxNodeExtensions
         public ClassDeclarationSyntax ToClassSyntax => (ClassDeclarationSyntax)context.Node;
         public MethodDeclarationSyntax ToMethodSyntax => (MethodDeclarationSyntax)context.Node;
         public PropertyDeclarationSyntax ToPropertySyntax => (PropertyDeclarationSyntax)context.Node;
+        public StructDeclarationSyntax ToStructSyntax => (StructDeclarationSyntax)context.Node;
+        public InterfaceDeclarationSyntax ToInterfaceSyntax => (InterfaceDeclarationSyntax)context.Node;
+        public RecordDeclarationSyntax ToRecordSyntax => (RecordDeclarationSyntax)context.Node;
+
+        public BaseTypeDeclarationSyntax ToBaseTypeDeclaration => (BaseTypeDeclarationSyntax)context.Node;
+
     }
 }

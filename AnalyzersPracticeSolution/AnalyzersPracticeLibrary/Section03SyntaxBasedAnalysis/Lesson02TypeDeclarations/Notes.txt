@@ -1,0 +1,62 @@
+Lesson 02 — Type Declarations
+
+The purpose of this lesson is to go deeper into individual type-declaration syntax nodes. Lesson 01 exposed you to syntax nodes broadly; now we isolate type declarations so these examples remain useful as references later.
+
+The important C# declaration node types are:
+
+ClassDeclarationSyntax
+StructDeclarationSyntax
+InterfaceDeclarationSyntax
+RecordDeclarationSyntax
+EnumDeclarationSyntax
+
+They share some concepts, but they are not all represented identically. In particular, don't assume that because classes, structs, interfaces, and records fit nicely together, enums necessarily use exactly the same abstraction.
+
+For Exercise 01, we're going to isolate the simplest case:
+
+Classes only.
+
+That gives you a clean reference example for ClassDeclarationSyntax before later exercises introduce other type declarations.
+
+New API shape
+
+The registration will use the syntax-node action you already encountered:
+
+context.RegisterSyntaxNodeAction(
+    AnalyzeClass,
+    SyntaxKind.ClassDeclaration);
+
+The callback shape is:
+
+private static void AnalyzeClass(SyntaxNodeAnalysisContext context)
+
+Because registration restricts the callback to SyntaxKind.ClassDeclaration, inside that callback you can work with:
+
+ClassDeclarationSyntax
+
+The important connection is:
+
+SyntaxKind.ClassDeclaration
+        ↓
+RegisterSyntaxNodeAction(...)
+        ↓
+SyntaxNodeAnalysisContext
+        ↓
+context.Node
+        ↓
+ClassDeclarationSyntax
+
+For example, the cast has this shape:
+
+ClassDeclarationSyntax declaration =
+    (ClassDeclarationSyntax)context.Node;
+
+And a class declaration's identifier is available through:
+
+declaration.Identifier
+
+The identifier's text can be obtained with:
+
+declaration.Identifier.Text
+
+This is the important new focus: you're no longer searching an entire syntax tree for a class. Roslyn invokes your callback for each registered class declaration.
