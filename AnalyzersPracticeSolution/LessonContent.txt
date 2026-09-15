@@ -38,11 +38,20 @@ Section 03 — Syntax-Based Analysis
 
 Now you start examining actual C# structures. Syntax analysis is intentionally before semantic analysis; Microsoft's semantic-analysis material itself assumes familiarity with the Syntax API.
 
-Syntax Nodes and SyntaxKind
-Inspecting Expressions
-Inspecting Statements and Declarations
-Working with Tokens and Trivia
-Handling Multiple Syntax Shapes
+| Lesson | Topic                                          |
+| ------ | ---------------------------------------------- |
+| 01     | Syntax Nodes and SyntaxKind — **completed**    |
+| 02     | Type Declarations                              |
+| 03     | Enum Declarations                              |
+| 04     | Method and Constructor Declarations            |
+| 05     | Property and Field Declarations                |
+| 06     | Namespace and Using Declarations               |
+| 07     | Expression Syntax                              |
+| 08     | Statement Syntax                               |
+| 09     | Tokens, Modifiers, and Trivia                  |
+| 10     | Parent, Child, and Nested Syntax Relationships |
+| 11     | Handling Multiple Syntax Shapes                |
+
 
 This should contain lots of very small rules: detecting particular expressions, declarations, operators, modifiers, etc.
 
