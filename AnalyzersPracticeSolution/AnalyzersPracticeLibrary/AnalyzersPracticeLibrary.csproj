@@ -11,9 +11,7 @@
 	<PropertyGroup>
 		<NoWarn>$(NoWarn);RS2000</NoWarn>
 	</PropertyGroup>
-	<ItemGroup>
-	  <Compile Include="..\..\..\CSharpPractice\CSharpPracticeSolution\CSharpPracticeLibrary\Helpers\LoopHelpers.cs" Link="Helpers\LoopHelpers.cs" />
-	</ItemGroup>
+	
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0">
 			<PrivateAssets>all</PrivateAssets>
