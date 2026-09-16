@@ -11,6 +11,6 @@ public static class SyntaxNodeExtensions
         public RecordDeclarationSyntax ToRecordSyntax => (RecordDeclarationSyntax)context.Node;
         //the above is needed just in case you need to know 
         public BaseTypeDeclarationSyntax ToBaseTypeDeclaration => (BaseTypeDeclarationSyntax)context.Node;
-
+        public EnumDeclarationSyntax ToEnumSyntax => (EnumDeclarationSyntax)context.Node;
     }
 }

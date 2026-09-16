@@ -1,0 +1,285 @@
+1. Registering for enum declarations
+
+You already know the API shape:
+
+context.RegisterSyntaxNodeAction(
+    action,
+    SyntaxKind.EnumDeclaration);
+
+The important new fact is simply the SyntaxKind:
+
+SyntaxKind.EnumDeclaration
+
+Unlike Lesson 02, there aren't several enum declaration kinds you need to register. One registration covers an enum such as:
+
+public enum EnumStatus
+{
+    Pending,
+    Complete
+}
+
+Inside the callback:
+
+SyntaxNodeAnalysisContext context
+
+context.Node will be the syntax node that caused the callback.
+
+You can therefore use the familiar pattern:
+
+if (context.Node is not EnumDeclarationSyntax enumSyntax)
+{
+    return;
+}
+
+This isn't a new C# concept—you've already been doing exactly this with the other declaration syntax nodes.
+
+2. EnumDeclarationSyntax
+
+The important shape for this lesson is roughly:
+
+EnumDeclarationSyntax
+    .Identifier
+    .Modifiers
+    .Members
+
+There are other members available, but these three are the important ones for our initial enum exercises.
+
+Identifier
+
+Just like the declarations you've already studied:
+
+enumSyntax.Identifier
+
+returns a:
+
+SyntaxToken
+
+So:
+
+enumSyntax.Identifier.Text
+
+can give you the enum's name.
+
+Given:
+
+public enum EnumGameStatus
+{
+}
+
+the identifier text is:
+
+EnumGameStatus
+
+And because the identifier is a SyntaxToken, your existing knowledge about:
+
+enumSyntax.Identifier.GetLocation()
+
+applies too.
+
+3. Modifiers
+
+Enums also expose:
+
+enumSyntax.Modifiers
+
+Its type is:
+
+SyntaxTokenList
+
+Therefore, the same technique you've already used for checking public applies:
+
+enumSyntax.Modifiers.Any(
+    SyntaxKind.PublicKeyword)
+
+There's nothing enum-specific to learn about that API.
+
+4. The important new part: Members
+
+This is where enums become more interesting.
+
+enumSyntax.Members
+
+has the type:
+
+SeparatedSyntaxList<EnumMemberDeclarationSyntax>
+
+This is different from the Members collection you may encounter on types containing ordinary declarations.
+
+Consider:
+
+public enum EnumGameStatus
+{
+    Waiting,
+    Playing,
+    Finished
+}
+
+Roslyn represents the three enum values as three:
+
+EnumMemberDeclarationSyntax
+
+nodes.
+
+So conceptually:
+
+EnumDeclarationSyntax
+│
+├── Identifier: EnumGameStatus
+│
+└── Members
+    ├── EnumMemberDeclarationSyntax: Waiting
+    ├── EnumMemberDeclarationSyntax: Playing
+    └── EnumMemberDeclarationSyntax: Finished
+
+That gives you a straightforward way to inspect the declared enum values.
+
+For example:
+
+int count = enumSyntax.Members.Count;
+
+would produce:
+
+3
+5. EnumMemberDeclarationSyntax
+
+Each item from:
+
+enumSyntax.Members
+
+is an:
+
+EnumMemberDeclarationSyntax
+
+It also has an Identifier:
+
+member.Identifier
+
+which is a:
+
+SyntaxToken
+
+Therefore:
+
+member.Identifier.Text
+
+gives the enum member's name.
+
+For:
+
+enum EnumDirection
+{
+    North,
+    South
+}
+
+you could obtain:
+
+North
+South
+
+without needing semantic analysis.
+
+That's an important distinction for Section 03: we are still learning what can be discovered directly from syntax. We don't need symbols or the semantic model just to see what enum members were written.
+
+6. Members can have explicit values
+
+An enum member isn't necessarily just:
+
+North
+
+C# also allows:
+
+North = 10
+
+An EnumMemberDeclarationSyntax exposes:
+
+member.EqualsValue
+
+Its type is:
+
+EqualsValueClauseSyntax?
+
+The ? matters.
+
+For:
+
+enum EnumExample
+{
+    First,
+    Second = 10
+}
+
+conceptually:
+
+First
+    EqualsValue → null
+
+Second
+    EqualsValue → not null
+
+So syntax alone lets an analyzer distinguish between a member where a value was explicitly written and one where C# will assign the value implicitly.
+
+We don't need to do anything complicated with EqualsValue yet. I want you to know that it exists before an exercise ever expects you to recognize explicit enum values.
+
+Tiny Runnable Example
+
+This is deliberately not an analyzer and does not solve Exercise 01. Its only purpose is to expose the new syntax shapes before you have to use them.
+
+string source =
+    """
+    public enum EnumDifficulty
+    {
+        Easy,
+        Normal = 5,
+        Hard
+    }
+    """;
+
+SyntaxTree tree = CSharpSyntaxTree.ParseText(source);
+
+SyntaxNode root = tree.GetRoot();
+
+EnumDeclarationSyntax enumSyntax =
+    root.DescendantNodes()
+        .OfType<EnumDeclarationSyntax>()
+        .Single();
+
+Console.WriteLine(enumSyntax.Identifier.Text);
+Console.WriteLine(enumSyntax.Members.Count);
+
+foreach (EnumMemberDeclarationSyntax member in enumSyntax.Members)
+{
+    Console.WriteLine(member.Identifier.Text);
+
+    bool hasExplicitValue = member.EqualsValue is not null;
+
+    Console.WriteLine(hasExplicitValue);
+}
+
+The important output is conceptually:
+
+EnumDifficulty
+3
+Easy
+False
+Normal
+True
+Hard
+False
+
+So the new mental model is fairly small:
+
+EnumDeclarationSyntax
+    ↓
+Identifier
+Modifiers
+Members
+    ↓
+EnumMemberDeclarationSyntax
+    ↓
+Identifier
+EqualsValue
+
+Most of the surrounding Roslyn techniques are things you already learned. That's intentional: the lesson should add enum syntax, not make you relearn analyzer infrastructure. Your course also specifically calls for small focused examples that remain useful as future Roslyn references.
+
+You're now ready for Exercise 01 — Fundamental Application.
