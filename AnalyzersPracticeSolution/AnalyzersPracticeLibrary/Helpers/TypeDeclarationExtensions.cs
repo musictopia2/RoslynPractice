@@ -6,7 +6,7 @@ public static class TypeDeclarationExtensions
         public int MethodCount => node.Members.OfType<MethodDeclarationSyntax>().Count();
         public int PropertyCount => node.Members.OfType<PropertyDeclarationSyntax>().Count();
 
-
+        public int FieldCount => node.Members.OfType<FieldDeclarationSyntax>().Count();
 
         //well see what other things about this i will need in future.
     }
