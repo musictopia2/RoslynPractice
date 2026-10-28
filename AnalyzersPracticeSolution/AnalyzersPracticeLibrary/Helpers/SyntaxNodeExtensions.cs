@@ -18,6 +18,7 @@ public static class SyntaxNodeExtensions
         
 
         public EnumDeclarationSyntax ToEnumSyntax => (EnumDeclarationSyntax)context.Node;
-        
+        public FieldDeclarationSyntax ToFieldSyntax => (FieldDeclarationSyntax)context.Node;
+        public IndexerDeclarationSyntax ToIndexSyntax => (IndexerDeclarationSyntax)context.Node;
     }
 }
