@@ -1,4 +1,6 @@
-﻿namespace AnalyzersPracticeLibrary.Helpers;
+﻿using System.Xml.Linq;
+
+namespace AnalyzersPracticeLibrary.Helpers;
 public static class SyntaxNodeExtensions
 {
     extension(SyntaxNodeAnalysisContext context)
@@ -12,6 +14,10 @@ public static class SyntaxNodeExtensions
         public TypeDeclarationSyntax ToTypeDeclaration => (TypeDeclarationSyntax)context.Node;
         //the above is needed just in case you need to know 
         public BaseTypeDeclarationSyntax ToBaseTypeDeclaration => (BaseTypeDeclarationSyntax)context.Node;
+        public BaseMethodDeclarationSyntax ToBaseMethodDeclaration => (BaseMethodDeclarationSyntax)context.Node;
+        
+
         public EnumDeclarationSyntax ToEnumSyntax => (EnumDeclarationSyntax)context.Node;
+        
     }
 }

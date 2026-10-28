@@ -22,5 +22,6 @@ public static class MemberDeclarationExtensions
                 return ""; //blank in all other cases (for now).
             }
         }
+        public bool IsPublic => node.Modifiers.Any(x => x.IsKind(SyntaxKind.PublicKeyword));
     }
 }

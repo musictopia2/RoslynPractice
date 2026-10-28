@@ -8,6 +8,11 @@ public static class TypeDeclarationExtensions
 
         public int FieldCount => node.Members.OfType<FieldDeclarationSyntax>().Count();
 
+
+        public List<MethodDeclarationSyntax> GetAllMethods => node.Members.OfType<MethodDeclarationSyntax>().ToList();
+
+        public List<MethodDeclarationSyntax> GetFilteredMethods(Func<MethodDeclarationSyntax, bool> c) => node.Members.OfType<MethodDeclarationSyntax>().Where(c).ToList();
+
         //well see what other things about this i will need in future.
     }
 }

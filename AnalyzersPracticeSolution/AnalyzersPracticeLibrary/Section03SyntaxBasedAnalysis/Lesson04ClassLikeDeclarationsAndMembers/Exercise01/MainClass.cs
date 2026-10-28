@@ -102,7 +102,6 @@ public class MainClass : DiagnosticAnalyzer
 
         }, SyntaxKind.ClassDeclaration);
         context.EnableConcurrentExecution();
-        context.EnableConcurrentExecution();
     }
     
 }

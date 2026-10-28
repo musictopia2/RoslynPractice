@@ -3,7 +3,7 @@ public static class BaseTypeDeclarationExtensions
 {
     extension(BaseTypeDeclarationSyntax node)
     {
-        public string Name => node.Identifier.Text;
+        public string Name => node.Identifier.ValueText;
         public bool HasMembers => node is TypeDeclarationSyntax;
         public Location GetIdentifierLocation => node.Identifier.GetLocation();
         public TypeDeclarationSyntax ToTypeDeclaration => (TypeDeclarationSyntax)node;
