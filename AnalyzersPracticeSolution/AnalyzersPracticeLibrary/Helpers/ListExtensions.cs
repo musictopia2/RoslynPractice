@@ -1,8 +1,17 @@
 ﻿namespace AnalyzersPracticeLibrary.Helpers;
 public static class ListExtensions
 {
+
+    extension (IEnumerable<string> source)
+    {
+        public string TextList => string.Join(", ", source);
+    }
+
     extension<T>(IEnumerable<T> source)
     {
+
+        
+
         public async Task ForCoditionalItemsAsync(Predicate<T> match, Func<T, Task> action)
         {
             foreach (var item in source)
