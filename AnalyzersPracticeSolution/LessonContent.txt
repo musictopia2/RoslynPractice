@@ -42,19 +42,19 @@ Lesson	Topic	Status
 01	Syntax Nodes and SyntaxKind	Completed
 02	Type Declarations and BaseTypeDeclarationSyntax	Completed
 03	Enum Declarations	Completed
-04	Class-Like Declarations and Members	
-05	Method-Like Declarations and BaseMethodDeclarationSyntax	
-06	Property-Like and Field Declarations	
-07	Parameters, Type Parameters, and Constraints	
-08	Namespace and Using Declarations	
-09	Attributes and Attribute Arguments	
+04	Class-Like Declarations and Members	Completed
+05	Method-Like Declarations and BaseMethodDeclarationSyntax	Completed
+06	Property-Like and Field Declarations	Completed
+07	Parameters, Type Parameters, and Constraints	Completed
+08	Namespace and Using Declarations	Completed
+09	Attributes and Attribute Arguments	Completed (did not understand well for exercises 4 and 5)
 10	Common Declaration Components and Modifiers	
 11	Expression Syntax	
 12	Statement Syntax	
 13	Tokens and Trivia	
 14	Parent, Child, and Nested Syntax Relationships	
 15	Handling Multiple Syntax Shapes	
-16	Building Reusable Declaration Syntax Utilities
+16	Building Reusable Declaration Syntax Utilities (this was covered throughout the section)
 
 
 This should contain lots of very small rules: detecting particular expressions, declarations, operators, modifiers, etc.

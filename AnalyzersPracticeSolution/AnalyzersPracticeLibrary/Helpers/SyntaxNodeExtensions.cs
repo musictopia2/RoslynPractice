@@ -20,5 +20,11 @@ public static class SyntaxNodeExtensions
         public EnumDeclarationSyntax ToEnumSyntax => (EnumDeclarationSyntax)context.Node;
         public FieldDeclarationSyntax ToFieldSyntax => (FieldDeclarationSyntax)context.Node;
         public IndexerDeclarationSyntax ToIndexSyntax => (IndexerDeclarationSyntax)context.Node;
+        public BaseNamespaceDeclarationSyntax ToBaseNamespaceSyntax => (BaseNamespaceDeclarationSyntax) context.Node;
+        public UsingDirectiveSyntax ToUsingDirectiveSyntax => (UsingDirectiveSyntax)context.Node;
+        public CompilationUnitSyntax ToCompilationUnitSyntax => (CompilationUnitSyntax)context.Node;
+        public AttributeSyntax ToAttributeSyntax => (AttributeSyntax)context.Node;
+        public AttributeArgumentSyntax ToAttributeArgumentSyntax => (AttributeArgumentSyntax)context.Node;
+        public AttributeListSyntax ToAttributeListSyntax => (AttributeListSyntax)context.Node;
     }
 }

@@ -1,4 +1,5 @@
 ﻿namespace AnalyzersPracticeLibrary.Helpers;
+
 public static class MethodDeclarationExtensions
 {
     extension(MethodDeclarationSyntax node)
@@ -45,5 +46,33 @@ public static class MethodDeclarationExtensions
             }
         }
         public List<string> ConstraintClauseNames => node.ConstraintClauses.Select(x => x.Name.Identifier.ValueText).ToList();
+
+        public int AttributeCount
+        {
+            get
+            {
+                int output = 0;
+                foreach (var item in node.AttributeLists)
+                {
+                    if (item.TargetName is null || item.TargetName == "method")
+                    {
+                        output += item.AttributeCount;
+                    }
+                }
+                return output;
+            }
+        }
+        public int NamedArgumentCount
+        {
+            get
+            {
+                int output = 0;
+                foreach (var firsts in node.AttributeLists)
+                {
+                    output += firsts.NamedArgumentCount;
+                }
+                return output;
+            }
+        }
     }
 }
