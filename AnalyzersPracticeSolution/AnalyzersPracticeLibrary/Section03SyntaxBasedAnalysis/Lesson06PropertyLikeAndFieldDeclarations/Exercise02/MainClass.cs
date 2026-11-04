@@ -137,7 +137,7 @@ public class MainClass : DiagnosticAnalyzer
             {
                 PropertyName = node.Name
             };
-            Diagnostic diagnostic = CreateDiagnostic(_rule, node.Identifier.GetLocation(), data);
+            Diagnostic diagnostic = CreateDiagnostic(_rule, node.GetIdentifierLocation, data);
             context.ReportDiagnostic(diagnostic);
 
 

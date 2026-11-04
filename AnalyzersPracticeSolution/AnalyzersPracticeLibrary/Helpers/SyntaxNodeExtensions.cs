@@ -26,5 +26,6 @@ public static class SyntaxNodeExtensions
         public AttributeSyntax ToAttributeSyntax => (AttributeSyntax)context.Node;
         public AttributeArgumentSyntax ToAttributeArgumentSyntax => (AttributeArgumentSyntax)context.Node;
         public AttributeListSyntax ToAttributeListSyntax => (AttributeListSyntax)context.Node;
+        public MemberDeclarationSyntax ToMemberSyntax => (MemberDeclarationSyntax)context.Node;
     }
 }

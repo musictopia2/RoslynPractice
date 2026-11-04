@@ -8,6 +8,10 @@ public static class PropertyDeclarationExtensions
         public bool HasInitAccessor =>
             node.AccessorList?.Accessors.Any(x =>
             x.IsKind(SyntaxKind.InitAccessorDeclaration)) == true;
+
+        public Location GetIdentifierLocation => node.Identifier.GetLocation();
+
+
         //public bool HasAccessors => node.AccessorList is not null;
         //public bool HasPrivateSet =>
         //    node.AccessorList?.Accessors.Any(x =>

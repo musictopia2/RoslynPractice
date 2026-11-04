@@ -1,5 +1,4 @@
 ﻿namespace AnalyzersPracticeLibrary.Helpers;
-
 public static class MethodDeclarationExtensions
 {
     extension(MethodDeclarationSyntax node)
